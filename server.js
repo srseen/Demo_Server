@@ -15,13 +15,14 @@ app.get("/products", (req, res, next) => {
   );
 });
 
-app.get("/products/:id", (req, res, next) => {
+// กำหนดค่าให้กับตัวแปรที่ส่งมาจากคำสั่ง post คือ http://localhost:3000/order/:id/:quantity/
+app.get("/order/:id/:quantity", (req, res, next) => {
   const id = req.params.id;
+  const quantity = req.params.quantity;
   const product = products.find((product) => product.id === id);
   if (product) {
-    const productString = JSON.stringify(product, undefined, 2);
     res.send(
-      `<pre style="color: red; background-color: black;">${productString}</pre>`
+      `<h1 style="color: red;">${product.name} ===> ${quantity} piece</h1>`
     );
   } else {
     res.send("<h1 style='color: red;'>Not found any product!!!</h1>");
