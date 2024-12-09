@@ -2,22 +2,30 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
-app.get("/product", (req, res, next) => {
-  const product = [
-    { id: "1", name: "ส้ม", price: 10 },
-    { id: "2", name: "มะม่วง", price: 20 },
-    { id: "3", name: "มะนาว", price: 30 },
-  ];
-  const productString = JSON.stringify(product, undefined, 2);
-  res.json(product);
+const products = [
+  { id: "1", name: "Product A", price: 100 },
+  { id: "2", name: "Product B", price: 200 },
+  { id: "3", name: "Product C", price: 300 },
+];
+
+app.get("/products", (req, res, next) => {
+  const allProducts = JSON.stringify(products, undefined, 2);
+  res.send(
+    `<pre style="color: red; background-color: black;">${allProducts}</pre>`
+  );
 });
 
-app.get("/student", (req, res, next) => {
-  const student = [
-    { id: "1", name: "สมชาย", age: 10 },
-    { id: "2", name: "สมหญิง", age: 10 },
-  ];
-  res.json(student);
+app.get("/products/:id", (req, res, next) => {
+  const id = req.params.id;
+  const product = products.find((product) => product.id === id);
+  if (product) {
+    const productString = JSON.stringify(product, undefined, 2);
+    res.send(
+      `<pre style="color: red; background-color: black;">${productString}</pre>`
+    );
+  } else {
+    res.send("<h1 style='color: red;'>Not found any product!!!</h1>");
+  }
 });
 
 app.listen(PORT, () => {
